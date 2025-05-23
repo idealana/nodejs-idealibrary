@@ -12,6 +12,10 @@ model Book {
   title         String
   description   String?
   author        String
+  createdBy     Int
   createdAt     DateTime
+  updatedBy     Int?
   updatedAt     DateTime?
+
+  @@map("book")
 }
