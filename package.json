@@ -6,7 +6,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon --legacy-watch src/server.js"
+    "dev": "nodemon --legacy-watch src/server.js",
+    "user-seed": "node prisma/seeds/user.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
