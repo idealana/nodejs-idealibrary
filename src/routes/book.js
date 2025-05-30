@@ -37,6 +37,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {
+		req.body.createdBy = req.user.userId;
+
 		const data = await BookService.insert(req.body);
 
 		res.json({
@@ -50,6 +52,8 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
 	try {
+		req.body.updatedBy = req.user.userId;
+
 		const id = parseInt(req.params.id);
 		const data = await BookService.update(id, req.body);
 

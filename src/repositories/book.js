@@ -33,11 +33,11 @@ const BookRepository = {
 	 * @return object
 	 */
 	async insert(data){
-		const { title, description, author } = data;
+		const { title, description, author, createdBy } = data;
 		const createdAt = DateHelper.now();
 
 		const book = await prisma.book.create({
-			data: { title, description, author, createdAt },
+			data: { title, description, author, createdBy, createdAt },
 		});
 
 		return book;
@@ -50,14 +50,14 @@ const BookRepository = {
 	 * @return object
 	 */
 	async update(id, data){
-		const { title, description, author } = data;
+		const { title, description, author, updatedBy } = data;
 		const updatedAt = DateHelper.now();
 
 		const book = await prisma.book.update({
 			where: {
 				id: parseInt(id),
 			},
-			data: { title, description, author, updatedAt },
+			data: { title, description, author, updatedBy, updatedAt },
 		});
 
 		return book;
