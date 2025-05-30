@@ -9,6 +9,20 @@ class AppError extends Error
 	}
 }
 
+class UnauthorizeError extends AppError
+{
+	constructor(message = "Unauthorized"){
+		super(message, 401);
+	}
+}
+
+class ForbiddenError extends AppError
+{
+	constructor(message = "Forbidden Access"){
+		super(message, 403);
+	}
+}
+
 class NotFoundError extends AppError
 {
 	constructor(message = "Resource not found"){
@@ -26,4 +40,4 @@ function errorHandler(err, res) {
 	});
 }
 
-module.exports = { AppError, NotFoundError, errorHandler };
+module.exports = { AppError, UnauthorizeError, ForbiddenError, NotFoundError, errorHandler };
