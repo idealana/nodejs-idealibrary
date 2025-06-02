@@ -29,3 +29,15 @@ model User {
 
   @@map("user")
 }
+
+model Category {
+  id            Int          @id @default(autoincrement())
+  name          String
+  createdBy     Int
+  createdAt     DateTime     @default(now())
+  updatedBy     Int?
+  updatedAt     DateTime?
+  deletedAt     DateTime?
+
+  @@map("category")
+}
