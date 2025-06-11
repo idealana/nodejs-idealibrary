@@ -10,6 +10,7 @@ class BaseRepository {
 	constructor(modelName) {
 		this._modelName = modelName;
 		this._isSoftDeletes = false;
+		this._options = {};
 	}
 
 	/**
@@ -40,10 +41,15 @@ class BaseRepository {
 			where.deletedAt = null;
 		}
 
+		const options = this._options;
+
+		// reset
+		this._options = {};
 		this.withTrashed(false); // reset
 
 		return await prisma[this._modelName].findMany({
 			where,
+			...options,
 		});
 	}
 
@@ -127,6 +133,43 @@ class BaseRepository {
 	 */
 	async deleteById(id, isForceDelete = false) {
 		return await this.delete({ id }, isForceDelete);
+	}
+
+	/**
+	 * Set Relation Model
+	 * @param array relations
+	 * @return class
+	 */
+	includes(relations) {
+		const include = {};
+
+		for(const relation of relations) {
+			const splitRelation = relation.split('.');
+			let current = include;
+
+			for (let index = 0; index < splitRelation.length; index++) {
+				const partRelation = splitRelation[index];
+
+				if(!current[ partRelation ]) {
+					current[ partRelation ] = {
+						include: {},
+					};
+				}
+
+				// if last iteration
+				if(!splitRelation[index + 1]) {
+					current[ partRelation ] = true;
+					current = current[ partRelation ];
+					continue;
+				}
+
+				current = current[ partRelation ]['include'];
+			} // endfor
+		} // endfor
+
+		Object.assign(this._options, { include });
+
+		return this;
 	}
 }
 
