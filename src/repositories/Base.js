@@ -32,6 +32,17 @@ class BaseRepository {
 	}
 
 	/**
+	 * Reset Used Properties
+	 * @return class
+	 */
+	resetProps() {
+		this._options = {};
+		this.withTrashed(false);
+
+		return this;
+	}
+
+	/**
 	 * Get All Data
 	 * @param object where
 	 * @return array objects
@@ -43,9 +54,7 @@ class BaseRepository {
 
 		const options = this._options;
 
-		// reset
-		this._options = {};
-		this.withTrashed(false); // reset
+		this.resetProps();
 
 		return await prisma[this._modelName].findMany({
 			where,
@@ -63,7 +72,7 @@ class BaseRepository {
 			where.deletedAt = null;
 		}
 
-		this.withTrashed(false); // reset
+		this.resetProps();
 
 		return await prisma[this._modelName].findUnique({
 			where,
