@@ -17,6 +17,8 @@ model Book {
   updatedBy     Int?
   updatedAt     DateTime?
 
+  bookCategories BookCategory[]
+
   @@map("book")
 }
 
@@ -39,5 +41,23 @@ model Category {
   updatedAt     DateTime?
   deletedAt     DateTime?
 
+  bookCategories BookCategory[]
+
   @@map("category")
+}
+
+model BookCategory {
+  id            Int          @id @default(autoincrement())
+  bookId        Int
+  categoryId    Int
+  createdBy     Int
+  createdAt     DateTime     @default(now())
+  updatedBy     Int?
+  updatedAt     DateTime?
+  deletedAt     DateTime?
+
+  book Book @relation(fields: [bookId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@map("book_category")
 }
